@@ -1,6 +1,7 @@
 import os
 import json
 from datetime import datetime
+import time
 
 class ActivityLogger:
   def __init__(self, log_file_path):
@@ -9,30 +10,12 @@ class ActivityLogger:
       with open(self.log_file_path, 'w') as f:
         f.write('logs:')
 
-  # def log_process_activity(self, **kwargs):
-  #   self.log_activity(activity_type='process', **kwargs)
-
-  # def log_file_activity(self, file_name, interaction, **kwargs):
-  #   full_file_path = os.path.realpath(file_name)
-  #   self.log_activity(
-  #     activity_type='file',
-  #     interaction=interaction,
-  #     full_file_path=full_file_path,
-  #     **kwargs)
-
-  # def log_network_activity(self, dest_host, dest_port, src_host, src_port, bytes_tx, protocol, interaction, **kwargs):
-  #   self.log_activity(
-  #     activity_type='network',
-  #     destination=dest_host,
-  #     full_file_path=full_file_path,
-  #     **kwargs)
-
-  def log_activity(self, process, activity_type, timestamp=None, **kwargs):
+  def log_activity(self, activity_type, process, timestamp=None, **kwargs):
     if timestamp is None:
       timestamp = ActivityLogger.generate_timestamp()
     entries = {
       'activity_type': activity_type,
-      'timestamp': timestamp,
+      'timestamp': int(timestamp), # Remove decimal places for consistency
       'pid': process.pid,
       'process_name': process.name(),
       'process_cmd_line': process.cmdline(),
@@ -40,10 +23,10 @@ class ActivityLogger:
       **kwargs
     }
     with open(self.log_file_path, 'a') as f:
-      entries_formatted = '\n    '.join(['{}: "{}"'.format(k, v) for k, v in entries.items()])
+      entries_formatted = '\n    '.join(['{}: {}'.format(k, json.dumps(v)) for k, v in entries.items()])
       log_text = '\n  - {}'.format(entries_formatted)
       f.write(log_text)
 
   @staticmethod
   def generate_timestamp():
-    return datetime.utcnow().isoformat()
+    return time.mktime(datetime.utcnow().timetuple())

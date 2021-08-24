@@ -1,11 +1,23 @@
 # Red Canary Coding Project
 
 ## Summary
+
 I created an activity generator using Python 3.8.11 that will spawn a process, manipulate files, and initiate network requests while logging all activities. Logs are stored in a YAML format in order to balance readability and performance, which can then be compared against an EDR agent for testing purposes.
 
-## Activity Generation
+## Example Usage
 
-When generating activities, slight delays are added to ensure that timestamps for each log are different from each other (and also for effect).
+```bash
+pipenv run python main.py --log-file-path logs/activity_log.yaml --test-file-path test.txt --test-command "ls -al" --test-hostname www.google.com --test-port 80
+```
+
+## Setup
+
+This project uses pipenv for virtual env/package management, it's recommended to install that first.
+
+After installing pipenv, run `pipenv install` to install packages.
+
+
+## Network transmission
 
 ## Logging Activities
 
