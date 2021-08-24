@@ -9,16 +9,16 @@ class ActivityLogger:
       with open(self.log_file_path, 'w') as f:
         f.write('logs:')
 
-  def log_process_activity(self, **kwargs):
-    self.log_activity(activity_type='process', **kwargs)
+  # def log_process_activity(self, **kwargs):
+  #   self.log_activity(activity_type='process', **kwargs)
 
-  def log_file_activity(self, file_name, interaction, **kwargs):
-    full_file_path = os.path.realpath(file_name)
-    self.log_activity(
-      activity_type='file',
-      interaction=interaction,
-      full_file_path=full_file_path,
-      **kwargs)
+  # def log_file_activity(self, file_name, interaction, **kwargs):
+  #   full_file_path = os.path.realpath(file_name)
+  #   self.log_activity(
+  #     activity_type='file',
+  #     interaction=interaction,
+  #     full_file_path=full_file_path,
+  #     **kwargs)
 
   # def log_network_activity(self, dest_host, dest_port, src_host, src_port, bytes_tx, protocol, interaction, **kwargs):
   #   self.log_activity(
@@ -27,8 +27,18 @@ class ActivityLogger:
   #     full_file_path=full_file_path,
   #     **kwargs)
 
-  def log_activity(self, **kwargs):
-    entries = {'timestamp': self.generate_timestamp(), **kwargs}
+  def log_activity(self, process, activity_type, timestamp=None, **kwargs):
+    if timestamp is None:
+      timestamp = ActivityLogger.generate_timestamp()
+    entries = {
+      'activity_type': activity_type,
+      'timestamp': timestamp,
+      'pid': process.pid,
+      'process_name': process.name(),
+      'process_cmd_line': process.cmdline(),
+      'initiated_by': process.username(),
+      **kwargs
+    }
     with open(self.log_file_path, 'a') as f:
       entries_formatted = '\n    '.join(['{}: "{}"'.format(k, v) for k, v in entries.items()])
       log_text = '\n  - {}'.format(entries_formatted)
