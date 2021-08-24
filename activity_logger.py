@@ -4,14 +4,10 @@ from datetime import datetime
 
 class ActivityLogger:
   def __init__(self, log_file_path):
-    self.logs = {'data': []}
     self.log_file_path = log_file_path
-
-  def write_entries(self):
-    with open(self.log_file_path, 'w') as f:
-      f.seek(0)
-      f.write(json.dumps(self.logs, indent=2))
-      f.truncate()
+    if not os.path.exists(self.log_file_path):
+      with open(self.log_file_path, 'w') as f:
+        f.write('logs:')
 
   def log_process_activity(self, **kwargs):
     self.log_activity(activity_type='process', **kwargs)
@@ -32,8 +28,11 @@ class ActivityLogger:
   #     **kwargs)
 
   def log_activity(self, **kwargs):
-    self.logs['data'].append({'timestamp': self.generate_timestamp(), **kwargs})
-    self.write_entries()
+    entries = {'timestamp': self.generate_timestamp(), **kwargs}
+    with open(self.log_file_path, 'a') as f:
+      entries_formatted = '\n    '.join(['{}: "{}"'.format(k, v) for k, v in entries.items()])
+      log_text = '\n  - {}'.format(entries_formatted)
+      f.write(log_text)
 
   @staticmethod
   def generate_timestamp():

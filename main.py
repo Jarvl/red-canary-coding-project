@@ -9,7 +9,7 @@ parser.add_argument('--file-path', metavar="/path/to/file.txt", required=True, t
 # parser.add_argument('--executable-path', metavar="/path/to/executable", required=True, type=str, dest='file_path')
 args = parser.parse_args()
 
-logger = ActivityLogger('logs/somelog.json')
+logger = ActivityLogger('logs/somelog.yaml')
 
 print('Creating file...')
 with open(args.file_path, 'x') as f:
