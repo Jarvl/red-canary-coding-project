@@ -23,9 +23,13 @@ class Logger:
       **kwargs
     }
     with open(self.log_file_path, 'a') as f:
-      entries_formatted = '\n    '.join(['{}: {}'.format(k, json.dumps(v)) for k, v in entries.items()])
-      log_text = '\n  - {}'.format(entries_formatted)
+      log_text = Logger.format_log_entries(entries)
       f.write(log_text)
+
+  @staticmethod
+  def format_log_entries(entries):
+    entries_formatted = '\n    '.join(['{}: {}'.format(k, json.dumps(v)) for k, v in entries.items()])
+    return '\n  - {}'.format(entries_formatted)
 
   @staticmethod
   def generate_timestamp():

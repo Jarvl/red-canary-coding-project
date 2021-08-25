@@ -1,6 +1,6 @@
 import os
 import argparse
-import psutil
+from activity_generator.helpers import get_current_process
 from activity_generator import Generator, Logger
 
 parser = argparse.ArgumentParser(description='Trigger activity for EDR agent testing.')
@@ -11,7 +11,7 @@ parser.add_argument('--test-hostname', metavar="www.google.com", required=True, 
 parser.add_argument('--test-port', metavar="80", required=True, type=int, dest='test_port')
 args = parser.parse_args()
 
-current_process = psutil.Process(os.getpid())
+current_process = get_current_process()
 
 logger = Logger(args.log_file_path)
 generator = Generator(current_process, logger)
