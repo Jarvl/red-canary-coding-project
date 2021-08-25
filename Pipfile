@@ -9,4 +9,4 @@ psutil = "*"
 [dev-packages]
 
 [requires]
-python_full_version = "3.8.11"
+python_version = "3.8"
