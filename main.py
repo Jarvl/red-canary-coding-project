@@ -13,7 +13,8 @@ args = parser.parse_args()
 
 current_process = get_current_process()
 
-logger = Logger(args.log_file_path)
+full_log_file_path = os.path.realpath(args.log_file_path)
+logger = Logger(full_log_file_path)
 generator = Generator(current_process, logger)
 
 test_file_full_path = os.path.realpath(args.test_file_path)

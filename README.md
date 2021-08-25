@@ -6,7 +6,7 @@ I created an activity generator using Python 3.8 that will spawn a process, mani
 
 ## Compatibility
 
-MacOS and Linux (it _should_ also be compatible with Windows, although I am unable to test)
+MacOS, Linux, and Windows
 
 ## Setup
 
@@ -20,7 +20,7 @@ After installing pipenv, run `pipenv install` to install packages.
 
 Running the application and generating logs
 ```bash
-pipenv run python main.py --log-file-path logs/activity_log.yaml --test-file-path test.txt --test-command "ls -al" --test-hostname www.google.com --test-port 80
+pipenv run python main.py --log-file-path logs/activity_log.yaml --test-file-path test.txt --test-command "python --version" --test-hostname www.google.com --test-port 80
 ```
 
 Running unit tests
