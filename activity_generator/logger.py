@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 import time
 
-class ActivityLogger:
+class Logger:
   def __init__(self, log_file_path):
     self.log_file_path = log_file_path
     if not os.path.exists(self.log_file_path):
@@ -12,7 +12,7 @@ class ActivityLogger:
 
   def log_activity(self, activity_type, process, timestamp=None, **kwargs):
     if timestamp is None:
-      timestamp = ActivityLogger.generate_timestamp()
+      timestamp = Logger.generate_timestamp()
     entries = {
       'activity_type': activity_type,
       'timestamp': int(timestamp), # Remove decimal places for consistency
